@@ -1,23 +1,19 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
 
-function Message(props) {
-  const { author, body } = props.message;
+const Message = ({ message }) => {
+  const { sender, text, timestamp } = message;
+  const senderName = `${sender.firstname} ${sender.lastname}`;
+
   return (
-    <p>
-      <strong>{author}: </strong>
-      {body}
-    </p>
+    <div className="message">
+      <span className="message-avatar">{senderName.charAt(0)}</span>
+      <div className="message-content">
+        <span className="message-sender">{senderName}</span>
+        <span className="message-text">{text}</span>
+        <span className="message-timestamp">{new Date(timestamp).toLocaleString()}</span>
+      </div>
+    </div>
   );
 }
-
-Message.propTypes = {
-  message: PropTypes.shape({
-    author: PropTypes.string,
-    body: PropTypes.string,
-    timestamp: PropTypes.instanceOf(Date),
-    room: PropTypes.string,
-  }),
-};
 
 export default Message;

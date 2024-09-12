@@ -34,7 +34,6 @@ const UpdateUserInfo = ({ userInfo, setUserInfo, userImage, setUserImage }) => {
         if (!token) {
           throw new Error('JWT token not found');
         }
-        console.log('Shouldnt run')
         
 
         const userInfoJSON = JSON.stringify(userInfo);
@@ -50,7 +49,6 @@ const UpdateUserInfo = ({ userInfo, setUserInfo, userImage, setUserImage }) => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(response)
         
         if (!response.ok) {
           throw new Error('Failed to update user info');

@@ -4,6 +4,9 @@
 from flask import Blueprint, request, jsonify, make_response
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from functools import wraps
+from datetime import datetime
+from models.chat_message import ChatMessage
+from models.chat_room import ChatRoom
 from models.user import User
 from models.revoked_token import RevokedToken
 from bson import Binary
@@ -91,23 +94,6 @@ def get_image(current_user):
         return response
     return 'Image not found', 404
 
-# @user_bp.route('/update_user_info', methods=['POST'])
-# @logged_in
-# def update_user_info(current_user):
-#     """Update the information of the current user"""
-#     data = request.json
-#     new_firstname = data.get('firstName')
-#     new_lastname = data.get('lastName')
-
-#     # Update the user information in the database
-#     user = User.objects(email=current_user).first()
-#     if user:
-#         user.firstname = new_firstname
-#         user.lastname = new_lastname
-#         user.save()  # Save the changes
-#         return make_response(jsonify({"message": "User information updated successfully"}), 200)
-#     else:
-#         return make_response(jsonify({"error": "User not found"}), 404)
 
 @user_bp.route('/upload_image', methods=['POST'])
 @logged_in
@@ -137,3 +123,9 @@ def upload_image(current_user):
     return make_response(
         jsonify({"message": 'Upload successful'}),
         201)
+
+@user_bp.route('/get_users', methods=['GET'])
+def get_users():
+    users = User.objects()
+    users_list = [user.to_dict() for user in users]
+    return jsonify({"users": users_list})

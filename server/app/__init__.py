@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 """ Makes the app folder a package"""
 
@@ -6,7 +7,7 @@ from flask import Flask
 from config import DevConfig, ProdConfig, TestConfig
 from db import init_mongodb
 from flask_jwt_extended import JWTManager
-from . import auth, user_routes, chat_routes
+from . import auth, chat_room_routes, message_routes, user_routes
 
 
 app = Flask(__name__, instance_relative_config=True)
@@ -21,11 +22,14 @@ else:  # Default to testing environment
 
 # app routes
 app.register_blueprint(auth.bp)
+app.register_blueprint(chat_room_routes.room_bp)
+app.register_blueprint(message_routes.message_bp)
 app.register_blueprint(user_routes.user_bp)
-app.register_blueprint(chat_routes.chats_bp)
 
 # database initialization
 init_mongodb(app)
 
 # JWT
 JWTManager(app)
+
+from app import auth, chat_room_routes, message_routes

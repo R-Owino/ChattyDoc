@@ -12,7 +12,7 @@ const Home = () => {
                 className="background-image"
             />
             <div className="content-container">
-                <h3 className="title">Medic Mkononi &#129780; </h3>
+                <h3 className="title">Medic Mkononi</h3>
                 <div className="text-container">
                     <p className="typewriter">Revolutionizing healthcare communication in Kenya</p>
                     <p className="typewriter">

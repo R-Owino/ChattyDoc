@@ -1,46 +1,47 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { Button, TextField, InputAdornment, IconButton } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import axios from "axios";
-import "../../assets/styles/register.css";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { Button, TextField, InputAdornment, IconButton } from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import axios from 'axios';
+import '../../assets/styles/register.css';
+
 
 const Register = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (event) => {
-    if (event.target.name === "firstName") {
+    if (event.target.name === 'firstName') {
       setFirstName(event.target.value);
-    } else if (event.target.name === "lastName") {
+    } else if (event.target.name === 'lastName') {
       setLastName(event.target.value);
-    } else if (event.target.name === "email") {
+    } else if (event.target.name === 'email') {
       setEmail(event.target.value);
-      setEmailError("");
-    } else if (event.target.name === "password") {
+      setEmailError('');
+    } else if (event.target.name === 'password') {
       setPassword(event.target.value);
-      setPasswordError("");
-    } else if (event.target.name === "confirmPassword") {
+      setPasswordError('');
+    } else if (event.target.name === 'confirmPassword') {
       setConfirmPassword(event.target.value);
-      setConfirmPasswordError("");
+      setConfirmPasswordError('');
     }
   };
 
   const validateEmail = () => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(email)) {
-      setEmailError("Please enter a valid email address");
+      setEmailError('Please enter a valid email address');
       return false;
     }
     return true;
@@ -55,26 +56,23 @@ const Register = () => {
 
     try {
       // Make a POST request to the register endpoint
-      const response = await axios.post(
-        "http://localhost:5000/auth/register/",
-        {
-          firstname: firstName,
-          lastname: lastName,
-          email,
-          password,
-        }
-      );
-      console.log("Register Response:", response);
+      const response = await axios.post('http://localhost:5000/auth/register/', {
+        firstname: firstName,
+        lastname: lastName,
+        email,
+        password,
+      });
+      console.log('Register Response:', response);
 
       if (response.status === 201) {
         // Registration successful, redirect to the login page
-        navigate("/login");
+        navigate('/login');
       } else {
-        console.log("Registration failed:", response.data.message);
+        console.log('Registration failed:', response.data.message);
         // Add your logic to display an error message or handle the error accordingly
       }
     } catch (error) {
-      console.log("Error occurred while registering:", error.message);
+      console.log('Error occurred while registering:', error.message);
       // Add your logic to display an error message or handle the error accordingly
     }
   };
@@ -92,14 +90,14 @@ const Register = () => {
         <h2>Register</h2>
 
         <form className="signup-form" onSubmit={handleFormSubmit}>
-          <TextField
+        <TextField
             name="firstName"
             label=" First Name"
             required
             fullWidth
             value={firstName}
             onChange={handleChange}
-            style={{ marginBottom: "10px", width: "100%" }}
+            style={{ marginBottom: '10px', width: '100%' }}
           />
 
           <TextField
@@ -109,7 +107,7 @@ const Register = () => {
             fullWidth
             value={lastName}
             onChange={handleChange}
-            style={{ marginBottom: "10px", width: "100%" }}
+            style={{ marginBottom: '10px', width: '100%' }}
           />
           <TextField
             name="email"
@@ -119,61 +117,49 @@ const Register = () => {
             fullWidth
             value={email}
             onChange={handleChange}
-            style={{ marginBottom: "10px", width: "100%" }}
-            error={
-              Boolean(email) && !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email)
-            }
+            style={{ marginBottom: '10px', width: '100%' }}
+            error={Boolean(email) && !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email)}
             helperText={emailError}
           />
 
           <TextField
             name="password"
-            type={showPassword ? "text" : "password"}
+            type={showPassword ? 'text' : 'password'}
             label="Password"
             required
             fullWidth
             value={password}
             onChange={handleChange}
-            style={{ marginBottom: "10px", width: "100%" }}
+            style={{ marginBottom: '10px', width: '100%' }}
             error={Boolean(passwordError)}
             helperText={passwordError}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton
-                    onClick={handleTogglePasswordVisibility}
-                    edge="end"
-                  >
+                  <IconButton onClick={handleTogglePasswordVisibility} edge="end">
                     {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
                   </IconButton>
                 </InputAdornment>
               ),
             }}
           />
-
+          
           <TextField
             name="confirmPassword"
-            type={showConfirmPassword ? "text" : "password"}
+            type={showConfirmPassword ? 'text' : 'password'}
             label="Confirm Password"
             required
             fullWidth
             value={confirmPassword}
             onChange={handleChange}
-            style={{ marginBottom: "10px", width: "100%" }}
+            style={{ marginBottom: '10px', width: '100%' }}
             error={Boolean(confirmPasswordError)}
             helperText={confirmPasswordError}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton
-                    onClick={handleToggleConfirmPasswordVisibility}
-                    edge="end"
-                  >
-                    {showConfirmPassword ? (
-                      <VisibilityIcon />
-                    ) : (
-                      <VisibilityOffIcon />
-                    )}
+                  <IconButton onClick={handleToggleConfirmPasswordVisibility} edge="end">
+                    {showConfirmPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
                   </IconButton>
                 </InputAdornment>
               ),
